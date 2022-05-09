@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">Forca</string>
+    <string name="app_name">Jogo da Forca</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rodadasCfgLb">Número de rodadas</string>
+    <string name="middleTxt">Médio</string>
+    <string name="easyTxt">Fácil</string>
+    <string name="hardTxt">Difícil</string>
+    <string name="levelLb">Nível de dificuldade</string>
+    <string name="saveTxt">Salvar</string>
+    <string name="cancelTxt">Cancelar</string>
+    <string name="startTxt">Jogar</string>
 </resources>
