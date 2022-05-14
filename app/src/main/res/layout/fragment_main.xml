@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".view.MainActivity">
 
     <LinearLayout
@@ -13,15 +14,17 @@
         android:orientation="vertical"
         android:layout_marginTop="10dp"
         >
-
         <ImageView
             android:id="@+id/gameStatus"
+            android:layout_gravity = "center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_weight="1"
             android:baselineAlignBottom="true"
             android:scaleType="centerInside"
+
             android:src="@mipmap/f0"
+
             />
     </LinearLayout>
 
