@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import br.com.rperatello.R
 import br.com.rperatello.databinding.FragmentMainBinding
-import br.com.rperatello.model.entity.GameSettings
+import br.com.rperatello.model.settings.GameSettings
 
 class MainFragment : Fragment() {
 
@@ -29,6 +29,7 @@ class MainFragment : Fragment() {
     lateinit var sharedPreferences: SharedPreferences
 
     private var rounds = 0
+    private var level = 0
 
     private var hits = 0
     private var defeats = 0
@@ -36,8 +37,10 @@ class MainFragment : Fragment() {
     private var defeats_list : List<String> = emptyList()
 
 
-    private var gameSettings = GameSettings(1, 1)
-    private var gameSettingsBackup = GameSettings(1, 1)
+    private var gameSettings =
+        GameSettings(1, 1)
+    private var gameSettingsBackup =
+        GameSettings(1, 1)
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)

@@ -1,4 +1,4 @@
-package br.com.rperatello.model.entity;
+package br.com.rperatello.model.settings;
 
 import androidx.annotation.NonNull;
 

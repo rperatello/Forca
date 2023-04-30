@@ -12,7 +12,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import br.com.rperatello.R
 import br.com.rperatello.databinding.FragmentSettingsBinding
-import br.com.rperatello.model.entity.GameSettings
+import br.com.rperatello.model.settings.GameSettings
 
 
 class SettingsFragment: Fragment() {
