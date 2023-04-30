@@ -23,7 +23,7 @@ import kotlin.collections.ArrayList
 class ForcaViewModel (application: Application): AndroidViewModel(application) {
 
     companion object {
-        val BASE_URL = "http://nobile.pro.br/forcaws/"
+        val BASE_URL = "https://nobile.pro.br/forcaws/"
     }
 
     val wordIdListMLD: MutableLiveData<WordIdList> = MutableLiveData()
@@ -48,8 +48,9 @@ class ForcaViewModel (application: Application): AndroidViewModel(application) {
                     call: Call<WordIdList>,
                     response: Response<WordIdList>
                 ) {
+                    val test = response.body()
                     wordIdListMLD.postValue(response.body())
-                    Log.v("Jogo da Forca", wordIdListMLD.toString())
+                    Log.v("Jogo da Forca", response.body().toString())
                 }
 
                 @SuppressLint("LongLogTag")

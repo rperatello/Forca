@@ -8,13 +8,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import br.com.rperatello.R
 import br.com.rperatello.databinding.FragmentMainBinding
 import br.com.rperatello.model.settings.GameSettings
+import br.com.rperatello.viewmodel.ForcaViewModel
 
 class MainFragment : Fragment() {
 
     private lateinit var  fragmentMainViewBinding : FragmentMainBinding
+    private lateinit var forcaViewModel: ForcaViewModel
+
     // TODO: Rename and change types of parameters
 
     val EXTRA_CONFIGURACOES = "EXTRA_SETTINGS"
@@ -60,6 +64,12 @@ class MainFragment : Fragment() {
         gameSettings.level = sharedPreferences.getInt(GAME_LEVEL, 1)
         gameSettings.round = sharedPreferences.getInt(NUMBER_OF_ROUNDS, 1)
 
+//        forcaViewModel = ViewModelProvider
+//            .AndroidViewModelFactory(this.application)
+//            .create(ForcaViewModel::class.java)
+
+        forcaViewModel = ViewModelProvider(this).get(ForcaViewModel::class.java)
+
         fragmentMainViewBinding.btStart.setOnClickListener{
             startGame();
             Log.v(getString(R.string.app_name), "onClick - passou startGame");
@@ -81,6 +91,7 @@ class MainFragment : Fragment() {
     private fun setNewMatch() {
         Log.v(getString(R.string.app_name), "Entrou setNewMatch")
         //TODO("Chamar rest para obter palavras")
+        forcaViewModel.getIdListByLevel(gameSettings.level)
         //TODO("Criar método para fornecer a palavra")
         //TODO("tornar a palavra visível")
         //TODO("tornar a palavra visível")

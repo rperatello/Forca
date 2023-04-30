@@ -6,7 +6,7 @@
     <string name="middleTxt">Médio</string>
     <string name="easyTxt">Fácil</string>
     <string name="hardTxt">Difícil</string>
-    <string name="levelLb">Nível de dificuldade</string>
+    <string name="levelLb">Dificuldade</string>
     <string name="saveTxt">Salvar</string>
     <string name="cancelTxt">Cancelar</string>
     <string name="startTxt">Jogar</string>
