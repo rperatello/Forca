@@ -22,27 +22,19 @@ import kotlin.collections.ArrayList
 
 class ForcaViewModel (application: Application): AndroidViewModel(application) {
 
-    companion object {
-        val BASE_URL = "https://nobile.pro.br/forcaws/"
-    }
+
 
     val wordIdListMLD: MutableLiveData<WordIdList> = MutableLiveData()
     val wordMLD: MutableLiveData<ArrayList<Word>> = MutableLiveData()
     var wordIdMLD: MutableLiveData<Int> = MutableLiveData()
-    val wordIdList : MutableList<Int> = ArrayList()
+    var wordIdList : MutableList<Int> = ArrayList()
 
-    private val corrotinas = CoroutineScope(Dispatchers.IO + Job())
+    private val coroutineScope = CoroutineScope(Dispatchers.IO + Job())
 
-    private val retrofit: Retrofit = Retrofit
-        .Builder()
-        .baseUrl("${BASE_URL}")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
 
-    private val serviceApi: ServiceApi = retrofit.create(ServiceApi::class.java)
 
     fun getIdListByLevel(id: Int){
-        corrotinas.launch {
+        coroutineScope.launch {
             serviceApi.retrieveIdentifiers(id).enqueue(object: Callback<WordIdList> {
                 override fun onResponse(
                     call: Call<WordIdList>,
@@ -61,7 +53,7 @@ class ForcaViewModel (application: Application): AndroidViewModel(application) {
     }
 
     fun getIdList(totalRounds: Int){
-        corrotinas.launch {
+        coroutineScope.launch {
             var rounds: Int = 0
             while (rounds != totalRounds) {
                 val random = Random()
@@ -73,19 +65,19 @@ class ForcaViewModel (application: Application): AndroidViewModel(application) {
                     rounds++
                 }
             }
-            Log.e("Jogo da Forca", "Random IdList: $wordIdList")
+            Log.v("Jogo da Forca", "random IdList: $wordIdList")
         }
     }
 
     fun getWordById(id: Int){
-        corrotinas.launch {
+        coroutineScope.launch {
             serviceApi.retrieveWord(id).enqueue(object: Callback<ArrayList<Word>> {
                 override fun onResponse(
                     call: Call<ArrayList<Word>>,
                     response: Response<ArrayList<Word>>
                 ) {
                     wordMLD.postValue(response.body())
-                    Log.e("Jogo da Forca", "word received: " + response.body().toString())
+                    Log.v("Jogo da Forca", "word received: " + response.body().toString())
                 }
 
                 @SuppressLint("LongLogTag")

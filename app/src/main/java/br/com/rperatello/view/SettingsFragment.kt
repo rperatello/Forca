@@ -41,7 +41,6 @@ class SettingsFragment: Fragment() {
                 position: Int,
                 id: Long
             ) {
-                Toast.makeText(this@SettingsFragment.context, "Seleção: " + roundList[position], Toast.LENGTH_SHORT).show();
                 gameSettings.round = roundList[position]
             }
 
@@ -61,7 +60,7 @@ class SettingsFragment: Fragment() {
             editor.apply()
             Log.v(
                 getString(R.string.app_name),
-                "Roger | " + gameSettings.level.toString()+" | " + gameSettings.round.toString()
+                " | " + gameSettings.level.toString()+" | " + gameSettings.round.toString()
             )
             Toast.makeText(this@SettingsFragment.context, gameSettings.toString(), Toast.LENGTH_SHORT).show();
             activity?.supportFragmentManager?.popBackStack();
@@ -79,7 +78,7 @@ class SettingsFragment: Fragment() {
 
         Log.v(
             getString(R.string.app_name),
-            "Roger | " + gameSettings.level.toString()+" | " + gameSettings.round.toString()
+            " | " + gameSettings.level.toString()+" | " + gameSettings.round.toString()
         )
 
         fragmentSettingsViewBinding.roundsOptions.setSelection(gameSettings.round - 1)
