@@ -48,7 +48,6 @@ class ForcaViewModel (application: Application): AndroidViewModel(application) {
                     call: Call<WordIdList>,
                     response: Response<WordIdList>
                 ) {
-                    val test = response.body()
                     wordIdListMLD.postValue(response.body())
                     Log.v("Jogo da Forca", response.body().toString())
                 }
@@ -66,16 +65,15 @@ class ForcaViewModel (application: Application): AndroidViewModel(application) {
             var rounds: Int = 0
             while (rounds != totalRounds) {
                 val random = Random()
-                val randomValue =
-                    random.nextInt(wordIdListMLD.value!!.size - 1)
-                val id =
-                    wordIdListMLD.value!![randomValue].toString()
+                val randomValue = random.nextInt(wordIdListMLD.value!!.size - 1)
+                val id =  wordIdListMLD.value!![randomValue].toString()
                 if (!wordIdList.contains(id.toInt())) {
                     wordIdList.add(id.toInt())
                     wordIdMLD.postValue(id.toInt())
                     rounds++
                 }
             }
+            Log.e("Jogo da Forca", "Random IdList: $wordIdList")
         }
     }
 
@@ -87,6 +85,7 @@ class ForcaViewModel (application: Application): AndroidViewModel(application) {
                     response: Response<ArrayList<Word>>
                 ) {
                     wordMLD.postValue(response.body())
+                    Log.e("Jogo da Forca", "word received: " + response.body().toString())
                 }
 
                 @SuppressLint("LongLogTag")

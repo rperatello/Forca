@@ -46,14 +46,6 @@ class MainFragment : Fragment() {
     private var gameSettingsBackup =
         GameSettings(1, 1)
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,10 +55,6 @@ class MainFragment : Fragment() {
         sharedPreferences = requireActivity().applicationContext.getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
         gameSettings.level = sharedPreferences.getInt(GAME_LEVEL, 1)
         gameSettings.round = sharedPreferences.getInt(NUMBER_OF_ROUNDS, 1)
-
-//        forcaViewModel = ViewModelProvider
-//            .AndroidViewModelFactory(this.application)
-//            .create(ForcaViewModel::class.java)
 
         forcaViewModel = ViewModelProvider(this).get(ForcaViewModel::class.java)
 
@@ -84,16 +72,20 @@ class MainFragment : Fragment() {
         fragmentMainViewBinding.btStart.setVisibility(View.GONE)
         fragmentMainViewBinding.keyboard.setVisibility(View.VISIBLE)
         fragmentMainViewBinding.resultTxt.setVisibility(View.VISIBLE)
+
+
+        forcaViewModel.getIdListByLevel(gameSettings.level)
+
+        forcaViewModel.wordIdListMLD.observe(this){
+            forcaViewModel.getIdList(gameSettings.round)
+        }
+
         setNewMatch()
         return
     }
 
     private fun setNewMatch() {
         Log.v(getString(R.string.app_name), "Entrou setNewMatch")
-        //TODO("Chamar rest para obter palavras")
-        forcaViewModel.getIdListByLevel(gameSettings.level)
-        //TODO("Criar método para fornecer a palavra")
-        //TODO("tornar a palavra visível")
         //TODO("tornar a palavra visível")
         //cleanAll()
         return
