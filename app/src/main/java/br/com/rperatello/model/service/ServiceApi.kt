@@ -1,30 +1,35 @@
 package br.com.rperatello.model.service
 
 import br.com.rperatello.model.entity.Word
-import br.com.rperatello.model.entity.WordIdList
-import br.com.rperatello.viewmodel.ForcaViewModel
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 
+private const val BASE_URL = "https://nobile.pro.br/forcaws/"
+
 object Service {
-    val retrofit: Retrofit = Retrofit
-        .Builder()
-        .baseUrl("${ForcaViewModel.BASE_URL}")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
 
-    val serviceApi: ServiceApi = retrofit.create(ServiceApi::class.java)
+    private val retrofit: Retrofit by lazy {
+        Retrofit
+            .Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 
-    val BASE_URL = "https://nobile.pro.br/forcaws/"
+    val serviceApi: ServiceApi by lazy {
+        retrofit.create(ServiceApi::class.java)
+    }
+
 }
 
 interface ServiceApi {
+
     @GET("identificadores/{level}")
-    fun retrieveIdentifiers(@Path("level") id: Int): Call<WordIdList>
+    suspend fun retrieveIdentifiers(@Path("level") id: Int): ArrayList<Int>
 
     @GET("palavra/{id}")
-    fun retrieveWord(@Path("id") pid: Int): Call<ArrayList<Word>>
+    suspend fun retrieveWord(@Path("id") pid: Int): ArrayList<Word>
+
 }

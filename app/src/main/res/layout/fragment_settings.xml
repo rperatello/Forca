@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -25,8 +26,8 @@
             android:id="@+id/roundsOptions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="textEnd"
-            android:entries="@array/rounds"/>
+            android:entries="@array/rounds"
+            android:textAlignment="textEnd" />
 
     </LinearLayout>
 
@@ -41,8 +42,8 @@
             android:id="@+id/levelLB"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:gravity="center"
             android:layout_marginLeft="15dp"
+            android:gravity="center"
             android:text="@string/levelLb"
             android:textAllCaps="true"
             android:textColor="@color/black" />
@@ -85,32 +86,15 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
+    <Button
+        android:id="@+id/startGameBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="115dp"
-        >
-
-        <Button
-            android:id="@+id/saveBt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:text="@string/saveTxt" />
-
-        <Button
-            android:id="@+id/cancelBt"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:onClick="onClick"
-            android:text="@string/cancelTxt" />
-
-    </LinearLayout>
+        android:layout_weight="1"
+        android:onClick="onClick"
+        android:text="@string/startTxt" />
 
 </FrameLayout>
