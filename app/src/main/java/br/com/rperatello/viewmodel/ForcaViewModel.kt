@@ -12,6 +12,7 @@ import br.com.rperatello.model.settings.GameSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.Normalizer
 
 private const val MAX_ATTEMPTS = 6
 
@@ -73,7 +74,8 @@ class ForcaViewModel(application: Application) : AndroidViewModel(application) {
                     ForcaViewModelState.Game(
                         currentRound = 0,
                         word = word,
-                        wordToShow = word.getWordToShow(setOf()),
+                        wordWithRemoveAccent = removeAccent(word.palavra.uppercase())!!,
+                        wordToShow = word.getWordToShow(setOf()).uppercase(),
                         attempts = 0,
                         inputLetters = emptySet(),
                         roundState = RoundState.PLAYING
@@ -99,8 +101,9 @@ class ForcaViewModel(application: Application) : AndroidViewModel(application) {
         inputLetters.add(char)
 
         val newWordToShow = currentState.word.getWordToShow(inputLetters)
-        val hasWordChanged = newWordToShow != currentState.wordToShow
-        val roundWon = newWordToShow == currentState.word.palavra
+        val hasWordChanged = newWordToShow.uppercase() != currentState.wordToShow.uppercase()
+//        val roundWon = newWordToShow == currentState.word.palavra
+        val roundWon = newWordToShow.uppercase() == currentState.wordWithRemoveAccent.uppercase()
 
         val attempts = if (!roundWon && !hasWordChanged) {
             currentState.attempts + 1
@@ -118,6 +121,7 @@ class ForcaViewModel(application: Application) : AndroidViewModel(application) {
             ForcaViewModelState.Game(
                 currentRound = currentState.currentRound,
                 word = currentState.word,
+                wordWithRemoveAccent = removeAccent(currentState.word.palavra.uppercase())!!,
                 wordToShow = newWordToShow,
                 attempts = attempts,
                 inputLetters = inputLetters,
@@ -154,6 +158,7 @@ sealed class ForcaViewModelState {
     data class Game(
         val currentRound: Int,
         val word: Word,
+        val wordWithRemoveAccent: String,
         val wordToShow: String,
         val attempts: Int,
         val inputLetters: Set<Char> = setOf(),
@@ -177,7 +182,8 @@ enum class RoundState {
 fun Word.getWordToShow(inputLetters: Set<Char>): String {
     val wordToShow = StringBuilder()
 
-    for (letter in this.palavra) {
+//    for (letter in this.palavra) {
+    for (letter in removeAccent(this.palavra.uppercase())!!) {
         if (inputLetters.contains(letter)) {
             wordToShow.append(letter)
         } else {
@@ -186,4 +192,8 @@ fun Word.getWordToShow(inputLetters: Set<Char>): String {
     }
 
     return wordToShow.toString()
+}
+
+private fun removeAccent(str: String?): String? {
+    return Normalizer.normalize(str, Normalizer.Form.NFD).replace("[^\\p{ASCII}]", "")
 }

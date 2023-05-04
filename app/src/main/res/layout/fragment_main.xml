@@ -34,10 +34,11 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/wordTv"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_marginTop="140dp"
-            android:text="paralelepípedo"
+            android:text=""
             android:textAlignment="center"
             android:textAllCaps="true"
             android:visibility="gone" />
@@ -77,6 +78,7 @@
             android:id="@+id/hitsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="25dp"
             android:maxLines="3"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -94,6 +96,7 @@
             android:id="@+id/defeatsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="25dp"
             android:maxLines="3"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -110,21 +113,25 @@
         android:orientation="vertical"
         android:padding="5dp"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@id/Section2">
+        app:layout_constraintTop_toBottomOf="parent">
+
 
         <TextView
-            android:id="@+id/resultTxt"
+            android:id="@+id/inputTxtTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:height="50dp"
-            android:background="@color/black"
+            android:minHeight="50dp"
             android:padding="8dp"
-            android:text="dgfhjfghgfh"
+            android:text=""
+            android:letterSpacing="0.2"
             android:textAlignment="center"
+            android:background="@color/black"
             android:textColor="@color/white"
-            android:textSize="14dp"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:textAllCaps="true"
+            android:textSize="14dp"
+            android:visibility="gone"/>
 
 <!--        <Button-->
 <!--            android:id="@+id/btStart"-->
@@ -155,7 +162,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/Q"
+                android:id="@+id/QbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -166,7 +173,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/W"
+                android:id="@+id/WbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -180,7 +187,7 @@
                 />
 
             <Button
-                android:id="@+id/E"
+                android:id="@+id/EbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -192,7 +199,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/r"
+                android:id="@+id/RbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -204,7 +211,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/T"
+                android:id="@+id/TbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -216,7 +223,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/Y"
+                android:id="@+id/YbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -228,7 +235,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/U"
+                android:id="@+id/UbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -240,7 +247,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/I"
+                android:id="@+id/IbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -252,7 +259,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/O"
+                android:id="@+id/ObT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -264,7 +271,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/P"
+                android:id="@+id/PbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -291,7 +298,7 @@
                 android:visibility="invisible" />
 
             <Button
-                android:id="@+id/A"
+                android:id="@+id/AbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -302,7 +309,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/S"
+                android:id="@+id/SbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -314,7 +321,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/D"
+                android:id="@+id/DbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -326,7 +333,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/F"
+                android:id="@+id/FbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -338,7 +345,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/G"
+                android:id="@+id/GbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -350,7 +357,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/H"
+                android:id="@+id/HbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -362,7 +369,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/J"
+                android:id="@+id/JbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -374,7 +381,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/K"
+                android:id="@+id/KbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -386,7 +393,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/L"
+                android:id="@+id/LbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -420,7 +427,7 @@
                 android:visibility="invisible" />
 
             <Button
-                android:id="@+id/Z"
+                android:id="@+id/ZbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -431,7 +438,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/X"
+                android:id="@+id/XbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -443,7 +450,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/C"
+                android:id="@+id/CbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -455,7 +462,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/V"
+                android:id="@+id/VbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -467,7 +474,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/B"
+                android:id="@+id/BbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -479,7 +486,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/N"
+                android:id="@+id/NbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
@@ -491,7 +498,7 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
-                android:id="@+id/M"
+                android:id="@+id/MbT"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"

@@ -25,7 +25,10 @@
         <Spinner
             android:id="@+id/roundsOptions"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="center"
             android:entries="@array/rounds"
             android:textAlignment="textEnd" />
 
@@ -43,6 +46,8 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginLeft="15dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:gravity="center"
             android:text="@string/levelLb"
             android:textAllCaps="true"
@@ -60,6 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
+                android:paddingRight="5dp"
                 android:checked="true"
                 android:text="@string/easyTxt"
                 android:textColor="@color/black" />
@@ -69,6 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_weight="0"
                 android:text="@string/middleTxt"
                 android:textColor="@color/black" />
@@ -78,6 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_weight="0"
                 android:text="@string/hardTxt"
                 android:textColor="@color/black" />
@@ -86,15 +94,27 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/startGameBt"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="115dp"
-        android:layout_weight="1"
-        android:onClick="onClick"
-        android:text="@string/startTxt" />
+        android:layout_marginTop="115dp" >
+
+        <Space
+            android:layout_width="270dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/startGameBt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:layout_weight="0"
+            android:onClick="onClick"
+            android:text="@string/startTxt" />
+
+    </LinearLayout>
 
 </FrameLayout>
