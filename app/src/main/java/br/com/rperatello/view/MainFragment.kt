@@ -5,21 +5,24 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import br.com.rperatello.R
 import br.com.rperatello.databinding.FragmentMainBinding
+import br.com.rperatello.model.settings.GameSettings
 import br.com.rperatello.viewmodel.ForcaViewModel
 import br.com.rperatello.viewmodel.ForcaViewModelState
-import br.com.rperatello.viewmodel.getWordToShow
-import java.text.Normalizer
+import br.com.rperatello.viewmodel.RoundState
 
 class MainFragment : Fragment() {
 
     private lateinit var fragmentMainViewBinding: FragmentMainBinding
     private lateinit var forcaViewModel: ForcaViewModel
+    private var gameSettings = GameSettings.getInstance()
+    private var currentRound : Int = 1
 
-    private val attemptsImage = arrayOf<Int>(R.mipmap.f0, R.mipmap.f1, R.mipmap.f2, R.mipmap.f3, R.mipmap.f4, R.mipmap.f5, R.mipmap.f6)
+    private val attemptsImage = arrayOf(R.mipmap.f0, R.mipmap.f1, R.mipmap.f2, R.mipmap.f3, R.mipmap.f4, R.mipmap.f5, R.mipmap.f6)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,14 +32,10 @@ class MainFragment : Fragment() {
 
         forcaViewModel = ViewModelProvider(this).get(ForcaViewModel::class.java)
 
-//        fragmentMainViewBinding.btStart.setOnClickListener {
-//            Log.v(getString(R.string.app_name), "onClick - passou startGame")
-//            startGame()
-//        }
+        currentRound = 1
 
-        Log.v(getString(R.string.app_name), "call startGame()")
+        Log.v(getString(R.string.app_name), "startGame()")
         startGame()
-
         listenToViewModelState()
 
         return fragmentMainViewBinding.root
@@ -46,41 +45,51 @@ class MainFragment : Fragment() {
         forcaViewModel.forcaViewModelState.observe(this) {
             when (it) {
                 ForcaViewModelState.Loading -> {
-                    // Todo loading
-                    Log.v(getString(R.string.app_name), "entrou ForcaViewModelState.Loading")
+                    Log.v(getString(R.string.app_name), "ForcaViewModelState.Loading")
                 }
 
                 is ForcaViewModelState.Game -> {
-                    if(it.roundState.ordinal == 2){
 
+                    Log.v(getString(R.string.app_name), "ForcaViewModelState.Game")
+                    Log.v(getString(R.string.app_name), forcaViewModel.forcaViewModelState.value.toString())
+
+                    fragmentMainViewBinding.gameStatus.setImageResource(attemptsImage[it.attempts])
+                    fragmentMainViewBinding.inputTxtTv.text = it.wordToShow
+
+                    if(it.roundState == RoundState.PLAYING){
                         fragmentMainViewBinding.keyboard.visibility = View.VISIBLE
+                        fragmentMainViewBinding.nextRoundLL.visibility = View.GONE
+                        fragmentMainViewBinding.nextRoundBt.visibility = View.GONE
 
-                        // Todo tela - renderizar dados round state
-                        Log.v(getString(R.string.app_name), "entrou ForcaViewModelState.Game")
-                        Log.v(getString(R.string.app_name), forcaViewModel.forcaViewModelState.value.toString())
-                        Log.v(getString(R.string.app_name), "Palavra: " + it.word.palavra)
-    //                    fragmentMainViewBinding.inputTxt.text = it.word.getWordToShow("".toSet())
-                        Log.v(getString(R.string.app_name), "WordToShow: " + it.wordToShow)
-                        Log.v(getString(R.string.app_name), "WordWithRemoveAccent: " + it.wordWithRemoveAccent)
-    //                    fragmentMainViewBinding.inputTv.text = it.wordToShow
-                        fragmentMainViewBinding.inputTxtTv.text = it.wordToShow
+                    } else {
+
                         fragmentMainViewBinding.wordTv.text = it.word.palavra
-
-                        fragmentMainViewBinding.gameStatus.setImageResource(attemptsImage[it.attempts])
-                    }
-                    else {
                         fragmentMainViewBinding.keyboard.visibility = View.GONE
+                        resetKeyboard()
+
+                        if (currentRound < gameSettings.totalRounds){
+                            clickNextRound()
+                        }
+                        else {
+                            forcaViewModel.nextRound()
+                        }
+
                     }
                 }
 
                 is ForcaViewModelState.GameOver -> {
-                    // Todo mostrar relatório
-                    Log.v(getString(R.string.app_name), "entrou ForcaViewModelState.GameOver")
+                    Log.v(getString(R.string.app_name), "ForcaViewModelState.GameOver")
+                    fragmentMainViewBinding.Section2.visibility = View.VISIBLE
+                    fragmentMainViewBinding.hitsNumber.text = "Total de Acertos: ${it.hits.count()}"
+                    fragmentMainViewBinding.hitsList.text = "Correto: ${it.hits.joinToString()}"
+                    fragmentMainViewBinding.missedNumber.text = "Total de Erros: ${it.missed.count()}"
+                    fragmentMainViewBinding.missedList.text = "Errado: ${it.missed.joinToString()}"
+
+                    newGame()
                 }
 
                 is ForcaViewModelState.Error -> {
-                    // Todo mostrar erro
-                    Log.v(getString(R.string.app_name), "entrou ForcaViewModelState.Error")
+                    Log.v(getString(R.string.app_name), "ForcaViewModelState.Error")
                     Log.e(getString(R.string.app_name), it.error)
                 }
             }
@@ -88,16 +97,45 @@ class MainFragment : Fragment() {
     }
 
     private fun startGame() {
-        Log.v(getString(R.string.app_name), "Entrou startGame")
-//        fragmentMainViewBinding.resultSection.visibility = View.GONE
-//        fragmentMainViewBinding.btStart.visibility = View.GONE
+        Log.v(getString(R.string.app_name), "startGame()")
         fragmentMainViewBinding.keyboard.visibility = View.VISIBLE
         fragmentMainViewBinding.wordTv.visibility = View.VISIBLE
         fragmentMainViewBinding.inputTxtTv.visibility = View.VISIBLE
-        fragmentMainViewBinding.Section2.visibility = View.VISIBLE
 
+        showRound()
         clickKeyboard()
         forcaViewModel.startGame()
+    }
+
+    private fun newGame(){
+        Log.v(getString(R.string.app_name), "newGame()")
+        fragmentMainViewBinding.newGameLL.visibility = View.VISIBLE
+        fragmentMainViewBinding.newGameBt.visibility = View.VISIBLE
+        fragmentMainViewBinding.newGameBt.setOnClickListener{
+            activity?.supportFragmentManager?.popBackStack()
+        }
+    }
+
+    private fun clickNextRound(){
+        Log.v(getString(R.string.app_name), "clickNextRound()")
+        fragmentMainViewBinding.nextRoundLL.visibility = View.VISIBLE
+        fragmentMainViewBinding.nextRoundBt.visibility = View.VISIBLE
+        fragmentMainViewBinding.nextRoundBt.setOnClickListener {
+            currentRound += 1
+            showRound()
+            fragmentMainViewBinding.wordTv.text = ""
+            forcaViewModel.nextRound()
+            return@setOnClickListener
+        }
+    }
+
+    private fun showRound() {
+        Toast.makeText(
+            this@MainFragment.context,
+            "Rodada $currentRound",
+            Toast.LENGTH_SHORT
+        ).show()
+        return
     }
 
     private fun clickKeyboard(){
@@ -131,7 +169,39 @@ class MainFragment : Fragment() {
             NbT.setOnClickListener { forcaViewModel.inputLetter('N'); NbT.isEnabled = false  }
             MbT.setOnClickListener { forcaViewModel.inputLetter('M'); MbT.isEnabled = false  }
         }
+        return
     }
 
+    private fun resetKeyboard(){
+        fragmentMainViewBinding.QbT.isEnabled = true
+        fragmentMainViewBinding.WbT.isEnabled = true
+        fragmentMainViewBinding.EbT.isEnabled = true
+        fragmentMainViewBinding.RbT.isEnabled = true
+        fragmentMainViewBinding.TbT.isEnabled = true
+        fragmentMainViewBinding.YbT.isEnabled = true
+        fragmentMainViewBinding.UbT.isEnabled = true
+        fragmentMainViewBinding.IbT.isEnabled = true
+        fragmentMainViewBinding.ObT.isEnabled = true
+        fragmentMainViewBinding.PbT.isEnabled = true
+
+        fragmentMainViewBinding.AbT.isEnabled = true
+        fragmentMainViewBinding.SbT.isEnabled = true
+        fragmentMainViewBinding.DbT.isEnabled = true
+        fragmentMainViewBinding.FbT.isEnabled = true
+        fragmentMainViewBinding.GbT.isEnabled = true
+        fragmentMainViewBinding.HbT.isEnabled = true
+        fragmentMainViewBinding.JbT.isEnabled = true
+        fragmentMainViewBinding.KbT.isEnabled = true
+        fragmentMainViewBinding.LbT.isEnabled = true
+
+        fragmentMainViewBinding.ZbT.isEnabled = true
+        fragmentMainViewBinding.XbT.isEnabled = true
+        fragmentMainViewBinding.CbT.isEnabled = true
+        fragmentMainViewBinding.VbT.isEnabled = true
+        fragmentMainViewBinding.BbT.isEnabled = true
+        fragmentMainViewBinding.NbT.isEnabled = true
+        fragmentMainViewBinding.MbT.isEnabled = true
+        return
+    }
 
 }

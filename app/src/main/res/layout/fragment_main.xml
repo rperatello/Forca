@@ -72,7 +72,7 @@
             android:layout_height="25dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Acertos: " />
+            android:text="Total de Acertos: " />
 
         <TextView
             android:id="@+id/hitsList"
@@ -82,25 +82,25 @@
             android:maxLines="3"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Palavras corretas " />
+            android:text="Correto: " />
 
         <TextView
-            android:id="@+id/defeatsNumber"
+            android:id="@+id/missedNumber"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Erros" />
+            android:text="Total de Erros" />
 
         <TextView
-            android:id="@+id/defeatsList"
+            android:id="@+id/missedList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="25dp"
             android:maxLines="3"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Palavras corretas " />
+            android:text="Errado: " />
 
     </LinearLayout>
 
@@ -132,14 +132,6 @@
             android:textAllCaps="true"
             android:textSize="14dp"
             android:visibility="gone"/>
-
-<!--        <Button-->
-<!--            android:id="@+id/btStart"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:layout_marginLeft="15dp"-->
-<!--            android:layout_marginRight="15dp"-->
-<!--            android:text="@string/startTxt" />-->
 
     </LinearLayout>
 
@@ -517,5 +509,57 @@
                 android:visibility="invisible" />
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nextRoundLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="350dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/nextRoundBt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:text="Próxima Palavra"
+            android:textAllCaps="false"
+            app:autoSizeTextType="uniform" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/newGameLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="350dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/newGameBt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:text="Novo Jogo"
+            android:textAllCaps="false"
+            app:autoSizeTextType="uniform" />
+
+    </LinearLayout>
+
+
 
 </FrameLayout>

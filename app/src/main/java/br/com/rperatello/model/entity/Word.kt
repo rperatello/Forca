@@ -6,7 +6,7 @@ data class Word (
     @SerializedName("Id")
     val id: Int,
     @SerializedName("Palavra")
-    val palavra: String,
+    var palavra: String,
     @SerializedName("Letras")
     val letras: Int,
     @SerializedName("Nivel")

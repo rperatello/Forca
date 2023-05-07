@@ -63,11 +63,11 @@ class SettingsFragment : Fragment() {
 
 
         fragmentSettingsViewBinding.startGameBt.setOnClickListener {
-            Toast.makeText(
-                this@SettingsFragment.context,
-                "Rounds: " + gameSettings.totalRounds + " | Difficulty: " + gameSettings.difficulty,
-                Toast.LENGTH_SHORT
-            ).show()
+//            Toast.makeText(
+//                this@SettingsFragment.context,
+//                "Rounds: " + gameSettings.totalRounds + " | Difficulty: " + gameSettings.difficulty,
+//                Toast.LENGTH_SHORT
+//            ).show()
 
             (activity as MainActivity).startGame()
         }

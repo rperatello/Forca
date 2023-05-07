@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.Normalizer
+import java.util.regex.Pattern
 
 private const val MAX_ATTEMPTS = 6
 
@@ -48,7 +49,7 @@ class ForcaViewModel(application: Application) : AndroidViewModel(application) {
         } else {
             this@ForcaViewModel.wordIdListByLevel = wordIdListByLevel
 
-            getWordAndUpdateState(wordIdListByLevel, 0)
+            getWordAndUpdateState(wordIdListByLevel, 1)
         }
     }
 
@@ -72,9 +73,9 @@ class ForcaViewModel(application: Application) : AndroidViewModel(application) {
             } else {
                 _forcaViewModelState.postValue(
                     ForcaViewModelState.Game(
-                        currentRound = 0,
+                        currentRound = round,
                         word = word,
-                        wordWithRemoveAccent = removeAccent(word.palavra.uppercase())!!,
+                        wordWithRemoveAccent = word.palavra.uppercase().removeAccent(),
                         wordToShow = word.getWordToShow(setOf()).uppercase(),
                         attempts = 0,
                         inputLetters = emptySet(),
@@ -102,8 +103,7 @@ class ForcaViewModel(application: Application) : AndroidViewModel(application) {
 
         val newWordToShow = currentState.word.getWordToShow(inputLetters)
         val hasWordChanged = newWordToShow.uppercase() != currentState.wordToShow.uppercase()
-//        val roundWon = newWordToShow == currentState.word.palavra
-        val roundWon = newWordToShow.uppercase() == currentState.wordWithRemoveAccent.uppercase()
+        val roundWon = newWordToShow == currentState.word.palavra.uppercase()
 
         val attempts = if (!roundWon && !hasWordChanged) {
             currentState.attempts + 1
@@ -121,7 +121,7 @@ class ForcaViewModel(application: Application) : AndroidViewModel(application) {
             ForcaViewModelState.Game(
                 currentRound = currentState.currentRound,
                 word = currentState.word,
-                wordWithRemoveAccent = removeAccent(currentState.word.palavra.uppercase())!!,
+                wordWithRemoveAccent = currentState.word.palavra.uppercase().removeAccent(),
                 wordToShow = newWordToShow,
                 attempts = attempts,
                 inputLetters = inputLetters,
@@ -132,10 +132,11 @@ class ForcaViewModel(application: Application) : AndroidViewModel(application) {
 
     fun nextRound() {
         val currentState = _forcaViewModelState.value as? ForcaViewModelState.Game ?: return
-        val wordIdListByLevel = this.wordIdListByLevel ?: return
+
+        gameHistory.add(currentState)
         val currentRound = currentState.currentRound + 1
 
-        if (currentRound >= totalRounds) {
+        if (currentRound > totalRounds) {
             val hits = gameHistory.filter { it.roundState == RoundState.WON }
                 .map { it.word.palavra }
                 .toList()
@@ -146,7 +147,7 @@ class ForcaViewModel(application: Application) : AndroidViewModel(application) {
 
             _forcaViewModelState.postValue(ForcaViewModelState.GameOver(hits, misses))
         } else {
-            gameHistory.add(currentState)
+            val wordIdListByLevel = this.wordIdListByLevel ?: return
             getWordAndUpdateState(wordIdListByLevel, currentRound)
         }
     }
@@ -182,10 +183,9 @@ enum class RoundState {
 fun Word.getWordToShow(inputLetters: Set<Char>): String {
     val wordToShow = StringBuilder()
 
-//    for (letter in this.palavra) {
-    for (letter in removeAccent(this.palavra.uppercase())!!) {
+    for ( (index, letter) in this.palavra.uppercase().removeAccent().withIndex()) {
         if (inputLetters.contains(letter)) {
-            wordToShow.append(letter)
+            wordToShow.append(this.palavra.uppercase()[index])
         } else {
             wordToShow.append("_")
         }
@@ -194,6 +194,8 @@ fun Word.getWordToShow(inputLetters: Set<Char>): String {
     return wordToShow.toString()
 }
 
-private fun removeAccent(str: String?): String? {
-    return Normalizer.normalize(str, Normalizer.Form.NFD).replace("[^\\p{ASCII}]", "")
+fun String.removeAccent(): String {
+    val nfdNormalizedString = Normalizer.normalize(this, Normalizer.Form.NFD)
+    val pattern: Pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
+    return pattern.matcher(nfdNormalizedString).replaceAll("")
 }
